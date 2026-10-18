@@ -1,0 +1,36 @@
+RESOLVE AÍ — COMEÇAR AQUI
+
+Leia primeiro o README.md na raiz da pasta PI-backend-main. Ele explica instalação, execução, cadastros, imagens, persistência, backup, testes e limitações.
+
+1. Instale Node.js compatível com as dependências (Node 22 LTS é uma opção adequada) e Python 3.
+2. Abra um terminal na pasta PI-backend-main.
+3. Instale as dependências:
+   npm ci
+4. Inicie o backend:
+   npm run start:dev
+5. Abra um segundo terminal na pasta PI-backend-main/frontend.
+6. Inicie o frontend:
+   py -m http.server 8000
+   Se py não funcionar no Windows, use python -m http.server 8000.
+   No Linux/macOS, use python3 -m http.server 8000.
+7. Abra http://localhost:8000/index.html.
+8. Para cadastrar categorias, usuários, profissionais, serviços e trabalhos, acesse:
+   http://localhost:8000/gestao.html
+9. Para os exemplos fictícios, consulte DADOS-DEMONSTRACAO.md.
+10. Para o roteiro de apresentação, consulte ROTEIRO-DEMONSTRACAO.md.
+
+Configuração padrão:
+- API: http://127.0.0.1:3000
+- URL-base usada pelo frontend: frontend/JS/api-config.js (padrão http://localhost:3000)
+- Banco ativo padrão: database/resolve-ai.sqlite
+- Cópia preservada do banco recebido: database/resolve-ai.original.sqlite
+- Fotografias novas: uploads/profissionais e uploads/trabalhos
+
+IMPORTANTE:
+- Execute os comandos do backend a partir de PI-backend-main para que os caminhos relativos do banco e das imagens sejam previsíveis.
+- O backend utiliza synchronize: true. Faça backup antes de iniciar contra um banco com dados importantes.
+- Para uma base limpa de demonstração, use um arquivo SQLite separado conforme a seção 14 do README. Não apague o banco original.
+- Banco e pasta uploads devem ser copiados juntos para preservar as fotografias.
+- A tela de gestão e os endpoints de escrita NÃO têm autenticação. Use somente em ambiente local; não exponha à internet.
+- O login real com senha ainda não foi implementado.
+- Build, testes automatizados e fluxo ponta a ponta devem ser executados no computador do grupo antes de afirmar que a integração está totalmente validada.

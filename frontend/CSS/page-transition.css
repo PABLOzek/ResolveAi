@@ -1,0 +1,168 @@
+/* ============================================================
+   page-transition.css — Animação de transição entre páginas
+   Resolve Aí
+   ============================================================ */
+
+/* ── Overlay principal ── */
+#page-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  pointer-events: none;
+
+  /* Estado inicial: invisível */
+  opacity: 0;
+  transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Quando está ativo (saindo da página) */
+#page-transition-overlay.pt-entering {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Quando a nova página está entrando (fade out do overlay) */
+#page-transition-overlay.pt-leaving {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── Conteúdo central ── */
+.pt-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+
+  transform: scale(0.88);
+  opacity: 0;
+  transition:
+    transform 0.36s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity   0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#page-transition-overlay.pt-entering .pt-content {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* ── Logo com brilho pulsante ── */
+.pt-logo-wrap {
+  position: relative;
+  width: 88px;
+  height: 88px;
+}
+
+.pt-logo-halo {
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(234, 179, 8, 0.22) 0%,
+    rgba(34, 197, 94, 0.10) 55%,
+    transparent 72%
+  );
+  animation: pt-halo-pulse 1.6s ease-in-out infinite;
+}
+
+.pt-logo-img {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  border-radius: 22px;
+  object-fit: cover;
+  box-shadow:
+    0 8px 28px rgba(234, 179, 8, 0.28),
+    0 2px 8px  rgba(0, 0, 0, 0.10);
+  animation: pt-logo-float 2.4s ease-in-out infinite;
+}
+
+/* ── Barra de progresso ── */
+.pt-progress-track {
+  width: 120px;
+  height: 3px;
+  background: #f3f4f6;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.pt-progress-bar {
+  height: 100%;
+  width: 0%;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #eab308 0%, #22c55e 100%);
+  animation: pt-progress-fill 0.55s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: 0.12s;
+}
+
+/* ── Texto de loading ── */
+.pt-label {
+  font-family: 'Sora', 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #9ca3af;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: pt-label-in 0.3s ease forwards;
+  animation-delay: 0.18s;
+}
+
+/* ── Três pontos animados ── */
+.pt-dots {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+  margin-left: 4px;
+}
+
+.pt-dots span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #eab308;
+  animation: pt-dot-bounce 1.2s ease-in-out infinite;
+}
+.pt-dots span:nth-child(2) { animation-delay: 0.18s; background: #a3d44c; }
+.pt-dots span:nth-child(3) { animation-delay: 0.36s; background: #22c55e; }
+
+/* ── Keyframes ── */
+@keyframes pt-halo-pulse {
+  0%, 100% { transform: scale(1);    opacity: 0.7; }
+  50%       { transform: scale(1.18); opacity: 1;   }
+}
+
+@keyframes pt-logo-float {
+  0%, 100% { transform: translateY(0px);   }
+  50%       { transform: translateY(-5px);  }
+}
+
+@keyframes pt-progress-fill {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+@keyframes pt-label-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+@keyframes pt-dot-bounce {
+  0%, 80%, 100% { transform: scale(1);    opacity: 0.5; }
+  40%           { transform: scale(1.5);  opacity: 1;   }
+}
+
+/* ── Fade de entrada da página ── */
+body.pt-page-hidden {
+  opacity: 0;
+}
+
+body.pt-page-visible {
+  opacity: 1;
+  transition: opacity 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}

@@ -1,0 +1,186 @@
+/* ============================================================
+   home-fix.css — Hero magazine + correções de overflow
+   Resolve Aí
+   ============================================================ */
+
+/* Scroll */
+html { overflow: visible !important; }
+body { overflow-x: clip !important; overflow-y: visible !important; }
+
+/* ─────────────────────────────────────────────
+   TICKER
+───────────────────────────────────────────── */
+.hero-ticker-wrap {
+  background: var(--yellow-500);
+  overflow: hidden;
+  padding: 8px 0;
+  white-space: nowrap;
+}
+.hero-ticker {
+  display: inline-flex;
+  gap: 28px;
+  animation: tickerScroll 28s linear infinite;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  padding-left: 100%;
+}
+@keyframes tickerScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ─────────────────────────────────────────────
+   HERO MAGAZINE
+───────────────────────────────────────────── */
+.hero-magazine {
+  padding: 0 !important;
+  background: #fff !important;
+  min-height: auto !important;
+  display: block !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  gap: 0 !important;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+}
+.hero-magazine-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 560px;
+  max-height: 620px;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Lado esquerdo */
+.hero-magazine-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 52px 44px;
+  background: linear-gradient(135deg, #fefce8 0%, #fff8e1 60%, #ffffff 100%);
+  position: relative;
+  z-index: 2;
+}
+.hero-magazine-content::after {
+  content: '';
+  position: absolute;
+  right: -38px;
+  top: 0;
+  bottom: 0;
+  width: 76px;
+  background: linear-gradient(135deg, #fefce8, #fff8e1);
+  clip-path: polygon(0 0, 0% 100%, 100% 100%);
+  z-index: 3;
+}
+
+/* Lado direito — foto */
+.hero-magazine-photo { position: relative; overflow: visible; }
+.hero-photo-frame    { position: relative; width: 100%; height: 100%; overflow: hidden; }
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center top;
+  opacity: 0;
+  transition: opacity 1s ease;
+  filter: brightness(.85);
+}
+.hero-slide-active { opacity: 1; }
+
+/* Label do prestador */
+.hero-slide-label {
+  position: absolute;
+  bottom: 48px;
+  left: 24px;
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  padding: 10px 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.14);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-left: 4px solid var(--yellow-500);
+}
+.hero-slide-label strong { font-size: 13px; font-weight: 700; color: var(--gray-900); }
+.hero-slide-label span   { font-size: 12px; color: var(--gray-500); }
+
+/* Slide dots */
+.hero-slide-dots {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 10;
+}
+.hero-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.5);
+  cursor: pointer;
+  transition: all .3s;
+}
+.hero-dot-active { background: #fff; width: 20px; border-radius: 4px; }
+
+/* Cards flutuantes */
+.hero-float-card {
+  position: absolute;
+  background: #fff;
+  border-radius: 14px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 8px 28px rgba(0,0,0,.13);
+  z-index: 20;
+  animation: floatPulse 4s ease-in-out infinite;
+}
+.hero-float-card:nth-child(2) { animation-delay: 1.2s; }
+.hero-float-card:nth-child(3) { animation-delay: 2.5s; }
+@keyframes floatPulse {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-5px); }
+}
+.hero-float-card strong { font-size: 14px; font-weight: 800; color: var(--gray-900); display: block; }
+.hero-float-card small  { font-size: 11px; color: var(--gray-500); display: block; }
+.hfc-icon {
+  width: 34px; height: 34px;
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.hfc-icon svg { width: 16px; height: 16px; }
+
+/* Posicionamento */
+.hfc-1 { top: 28px;  left: -28px; }
+.hfc-2 { top: 50%;  right: 18px; transform: translateY(-50%); animation-delay: .8s; }
+.hfc-3 { bottom: 28px; right: 18px; animation-delay: 1.8s; }
+
+/* Oculta o hero base quando magazine está ativo */
+.hero.hero-magazine .hero-content,
+.hero.hero-magazine .hero-visual { display: none !important; }
+
+/* ─────────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .hero-magazine-inner {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    max-height: none;
+  }
+  .hero-magazine-content { padding: 36px 22px; }
+  .hero-magazine-content::after { display: none; }
+  .hero-magazine-photo { height: 300px; }
+  .hfc-1, .hfc-2, .hfc-3 { display: none; }
+}
+@media (max-width: 600px) {
+  .hero-ticker { font-size: 11px; }
+  .hero-magazine-photo { height: 220px; }
+}
